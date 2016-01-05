@@ -25,7 +25,7 @@ notifications to st2. This trigger type is then referenced in st2 rules. See
     ```
     chmod +x /usr/local/nagios/libexec/st2service_handler.py
     ```
-4. Handlers require a configuration file (See [etc/config.yaml](etc/config.yaml)) containing
+4. Handlers require a configuration file (See [etc/st2service_handler.conf](etc/st2service_handler.conf)) containing
 st2 credentials, st2 API URL and st2 auth URL.
 
 
