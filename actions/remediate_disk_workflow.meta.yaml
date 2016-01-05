@@ -1,0 +1,29 @@
+---
+  name: "remediate_disk_workflow"
+  runner_type: mistral-v2
+  description: "Remediation workflow for diskspace alerts"
+  enabled: true
+  entry_point: "workflows/remediate_disk_workflow.yaml"
+  parameters:
+    hostname:
+      type: "string"
+      description: "Host to remediate disk space on"
+    directory:
+      type: "string"
+      description: "Directory to prune if over the threshold"
+    threshold:
+      type: "integer"
+      description: "threshold for check diskspace action. percentage"
+      default: 75
+    channel:
+      type: "string"
+      default: "563b5f7f21f7a36d7bd5baaf"
+      description: "Channel to post messages to"
+    context:
+      default: {}
+      immutable: true
+      type: object
+    task:
+      default: null
+      immutable: true
+      type: string

@@ -1,0 +1,69 @@
+---
+version: '2.0'
+
+e_nagios.remediate_disk_workflow:
+  type: direct
+  input:
+    - hostname
+    - directory
+    - threshold
+    - channel
+  tasks:
+    lets_work:
+      # [466, 27]
+      action: chatops.post_message
+      input:
+        channel: <% $.channel %>
+        message: "bot is trying to take care of the disk space issue on <% $.hostname %> in <% $.directory %>"
+      on-success:
+        - check_dir_size
+    check_dir_size:
+      # [289, 149]
+      action: e_nagios.check_dir_size
+      input:
+        hosts: <% $.hostname %>
+        directory: <% $.directory %>
+        threshold: <% $.threshold %>
+      on-success:
+        - hubot_error
+      on-error:
+        - remediate
+    hubot_report:
+      # [485, 568]
+      action: chatops.post_message
+      input:
+        channel: <% $.channel %>
+        message: "bot has cleared <% $.directory %> on <% $.hostname %> and it is now less than <% $.threshold %> percent!"
+    hubot_error:
+      # [114, 274]
+      action: chatops.post_message
+      input:
+        channel: <% $.channel %>
+        message: "Alert from Nagios was false positive for <% $.directory %> on <% $.hostname %>!"
+    remediate:
+      # [489, 233]
+      action: e_nagios.disk_remediate
+      input:
+        hosts: <% $.hostname %>
+        directory: <% $.directory %>
+      on-success:
+        - check_dir_size2
+      on-error:
+        - hubot_rem_fail
+    check_dir_size2:
+      # [485, 410]
+      action: e_nagios.check_dir_size
+      input:
+        hosts: <% $.hostname %>
+        directory: <% $.directory %>
+        threshold: <% $.threshold %>
+      on-success:
+        - hubot_report
+      on-error:
+        - hubot_rem_fail
+    hubot_rem_fail:
+      # [82, 464]
+      action: chatops.post_message
+      input:
+        channel: <% $.channel %>
+        message: "Auto-remediation failed for <% $.directory %> on <% $.hostname %>. Please check manually."

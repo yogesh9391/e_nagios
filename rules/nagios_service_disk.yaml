@@ -1,0 +1,22 @@
+---
+name: check_disk
+pack: e_nagios
+description: Check disk usage and trigger remediation
+enabled: false
+trigger:
+  type: e_nagios.service_state_change
+criteria:
+  trigger.service:
+    pattern: "^Disk"
+    type: matchregex
+  trigger.state_type:
+    pattern: "HARD"
+    type: matchregex
+  trigger.state_id:
+    pattern: "0"
+    type: gt
+action:
+  ref: e_nagios.remediate_disk_workflow
+  parameters:
+    hostname: "{{ trigger.host }}"
+    directory: "{{ trigger.service | regex_replace('^Disk\\s*', '') }}" 

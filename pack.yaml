@@ -1,0 +1,9 @@
+---
+name: e_nagios
+description: Example Nagios integration pack. See README.md for setup instructions.
+keywords:
+  - nagios
+  - monitoring
+  - alerting
+version: 1.0
+author: eMptywee
