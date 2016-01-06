@@ -2,7 +2,7 @@
 
 use strict;
 use Getopt::Long;
-use JSON;
+#use JSON;
 
 my $directory;
 my $debug;
@@ -44,7 +44,7 @@ finish(0);
 sub finish
 {
     my $exit_code = shift || 0;
-    my $json = encode_json \%output;
-    print "$json\n";
+#    my $json = encode_json \%output;
+#    print "$json\n";
     exit( $exit_code );
 }
