@@ -1,3 +1,4 @@
+---
 description: 'Try to remediate disk space issues'
 enabled: true
 entry_point: disk_remediate.pl

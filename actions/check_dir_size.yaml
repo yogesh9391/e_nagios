@@ -1,3 +1,4 @@
+---
 description: 'Check the total percentage of disk taken up by a specified directory'
 enabled: true
 entry_point: check_dir_size.py
